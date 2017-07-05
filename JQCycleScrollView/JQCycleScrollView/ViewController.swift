@@ -9,12 +9,14 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var cysleView: JQCycleScrollView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let cycleScrollView = JQCycleScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 240))
+        let cycleScrollView = JQCycleScrollView(frame: CGRect(x: 0, y: 300, width: self.view.frame.size.width, height: 240))
         cycleScrollView.delegate = self
+        cycleScrollView.currentPageIndicatorTintColor = UIColor.red
         self.view.addSubview(cycleScrollView)
 
         let descs = ["韩国防部回应停止部署萨德:遵照最高统帅指导方针",
@@ -29,6 +31,9 @@ class ViewController: UIViewController {
                             JQImageSource(type: .imageName, source: "localImg10")]
 
         cycleScrollView.imageSources = imageSources
+
+        cysleView.imageSources = imageSources
+        cysleView.showPageControl = false
     }
 }
 

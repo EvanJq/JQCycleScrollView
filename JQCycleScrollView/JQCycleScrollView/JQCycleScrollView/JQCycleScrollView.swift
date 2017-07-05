@@ -50,6 +50,8 @@ class JQCycleScrollView: UIView {
 
     var delegate: JQCycleScrollViewDelegate?
 
+    var placeholderImage: UIImage?
+
     var autoScrolTimeInterval = 1.0
     var autoScrollable = true {
         didSet {
@@ -66,15 +68,22 @@ class JQCycleScrollView: UIView {
         }
     }
 
-    var currentPageIndicatorTintColor = UIColor.blue
-    var pageIndicatorTintColor = UIColor.lightGray
+    var currentPageIndicatorTintColor = UIColor.blue {
+        didSet {
+            self.pageControl.currentPageIndicatorTintColor = currentPageIndicatorTintColor
+        }
+    }
+    var pageIndicatorTintColor = UIColor.lightGray {
+        didSet {
+            self.pageControl.pageIndicatorTintColor = pageIndicatorTintColor
+        }
+    }
     fileprivate var pageControl: UIPageControl!
 
     fileprivate var flowLayout:UICollectionViewFlowLayout!
     fileprivate var collectionView:UICollectionView!
     fileprivate var cellIdentifier = "JQCycleCell"
     fileprivate var timer: Timer?
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -138,6 +147,8 @@ extension JQCycleScrollView {
     }
 }
 
+
+// MARK: - 控件创建与布局
 extension JQCycleScrollView {
     func setupUI() {
         setupCollectionView()
@@ -192,6 +203,7 @@ extension JQCycleScrollView: UICollectionViewDataSource, UICollectionViewDelegat
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! JQCycleCell
+        cell.placeholderImage = placeholderImage
         cell.imageSource = imageSources[indexPath.row]
         return cell
     }
@@ -201,6 +213,8 @@ extension JQCycleScrollView: UICollectionViewDataSource, UICollectionViewDelegat
     }
 }
 
+
+// MARK: - 滚动相关
 extension JQCycleScrollView {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         removeTimer()
@@ -223,7 +237,6 @@ extension JQCycleScrollView {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
         if pageCount > 0 {
             if scrollView.contentOffset.x == 0 || scrollView.contentOffset.x >= scrollView.frame.size.width * CGFloat(pageCount + 1) {
                 self.scrollToPage(currentPage, animated: false)

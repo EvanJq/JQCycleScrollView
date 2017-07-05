@@ -13,13 +13,14 @@ class JQCycleCell: UICollectionViewCell {
 
     var imageView: UIImageView!
 
+    var placeholderImage: UIImage?
     var imageSource = JQImageSource() {
         didSet {
             switch imageSource.type {
             case .imageName:
                 imageView.image = UIImage(named: imageSource.source)
             case .url:
-                imageView.kf.setImage(with: URL(string: imageSource.source))
+                imageView.kf.setImage(with: URL(string: imageSource.source), placeholder: placeholderImage)
             }
         }
     }

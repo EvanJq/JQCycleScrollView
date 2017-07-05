@@ -14,6 +14,7 @@ enum JQSourceType {
 }
 
 struct JQImageSource {
+    /// 资源类型
     var type: JQSourceType = .imageName
     var source: String = ""
 
@@ -21,7 +22,7 @@ struct JQImageSource {
         
     }
 
-    init(type: JQSourceType, source: String) {
+    init(type: JQSourceType = .imageName, source: String) {
         self.type = type
         self.source = source
     }
